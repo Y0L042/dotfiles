@@ -1,0 +1,37 @@
+# .clangd configuration template for memory-efficient C/C++ development
+#
+# USAGE: Copy this file to your project root as ".clangd" (without .template extension)
+# This prevents clangd from indexing system headers and background-indexing your project,
+# significantly reducing memory usage.
+#
+# For more info: https://clangd.llvm.org/config
+
+CompileFlags:
+  # Add compiler flags here if needed
+  Add:
+    - -std=c99              # Default to C99 standard
+    # - -std=c++17          # Or use C++17 for C++ projects
+    # - -Wall               # Enable all warnings
+    # - -Wextra             # Enable extra warnings
+
+Index:
+  Background: Skip          # CRITICAL: Disable background indexing to prevent memory bloat
+  StandardLibrary: No       # Don't index system headers (stdlib, Windows SDK, etc.)
+
+Completion:
+  AllScopes: No             # Limit completion scope to reduce memory usage
+
+Diagnostics:
+  # Disable expensive diagnostics that can trigger header parsing
+  UnusedIncludes: None
+  MissingIncludes: None
+  # Suppress common warnings if needed:
+  # Suppress:
+  #   - "-Wunused-parameter"
+  #   - "-Wunused-variable"
+
+# Performance tuning (uncomment if needed)
+# If:
+#   PathMatch: .*\.(c|cpp|h|hpp)$
+# CompileFlags:
+#   Compiler: clang          # Force specific compiler
